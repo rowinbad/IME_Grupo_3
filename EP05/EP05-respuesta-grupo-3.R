@@ -4,7 +4,7 @@
 # Pablo Villarreal Ortiz
 # Carla Polanco Rodríguez
 
-# Instalación de paquetes dplyr y ggpubr en caso de no poseerlos 
+# Instalación de paquetes dplyr y ggpubr en caso de no poseerlos
 # instalados con anterioridad.
 
 if (!require ( dplyr )) {
@@ -22,13 +22,6 @@ if (!require ( ggpubr )) {
 library(dplyr)
 library(ggpubr)
 
-# Lectura del archivo
-
-dir <- "C:/Users/carla/OneDrive/Escritorio/IME/IME_Grupo_3/EP05"
-basename <- "EP04 Datos.csv"
-file <- file.path(dir, basename)
-poblacion <- read.csv2(file = file)
-
 # ------------------------------ PROBLEMA --------------------------------------
 
 # Un agricultor dedicado a la producción de manzanas desea determinar, 
@@ -36,15 +29,42 @@ poblacion <- read.csv2(file = file)
 # peso medio de 110 g. Se sabe que el peso de éstas sigue una distribución
 # normal con desviación estándar de 15 g
 
-# el calibre mínimo aceptable es de 60 mm si se mide 
+# El calibre mínimo aceptable es de 60 mm si se mide
 # por el diámetro o de 90 g si se mide por el peso.
+
+# ------------------------------- DATOS ----------------------------------------
+
+n <- 300
+peso_medio <- 110
+sd <- 15
 
 # -------------------------- PREGUNTAS AL GRUPO --------------------------------
 
 # 1. El agricultor está seguro de que el verdadero peso medio no puede ser 
-# inferior a 110 gramos y piensarechazar la hipótesis nula cuando la muestra 
+# inferior a 110 gramos y piensa rechazar la hipótesis nula cuando la muestra 
 # presente un peso medio mayor a 111 gramos. Determine,usando herramientas
 # gráficas, la probabilidad de que cometa un error de tipo I.
+
+# IMPORTANTE: nivel de significancia = alfa = probabilidad de cometer erro de tipo I
+# = probabilidad de rechazar H0 y en favor de H1 cuando en realidad H0 es la verdadera
+
+# H0 --> µ = 110 --> rechazada cuando µ > 111
+# H1 --> µ > 110
+
+grados_libertad <- n - 1
+valor_nulo <- 110
+
+# Calcular el estadístico de prueba.
+media <- peso_medio
+desv_est <- sd
+error <- desv_est / sqrt(n)
+t <- (media - valor_nulo) / error
+
+# Calcular el valor p.
+p <- pt(t, df = grados_libertad, lower.tail = TRUE)
+
+# H0 --> media >= 110  --> rechazada cuando media > 111
+# H1 --> media < 110
 
 
 # 2. Suponga ahora que el verdadero peso medio de las manzanas es de 110,5 gramos.
