@@ -5,22 +5,44 @@
 # Carla Polanco Rodríguez
 
 
+<<<<<<< Updated upstream
 if (!require (dplyr)) {
   install.packages ("dplyr" , dependencies=TRUE)
   require (dplyr)
 }
+=======
+# 3. ¿Es posible afirmar que, en promedio, los pollitos alimentados con maravilla superan por más de 0,02
+# gramos a los alimentados con soya a los 4 días de nacidos?
+
+# Instalación de paquetes dplyr y ggpubr en caso de no poseerlos 
+# instalados con anterioridad.
+if (!require ( dplyr )) {
+  install.packages ("dplyr" , dependencies=TRUE)
+  require (dplyr)
+}
+
+if (!require ( ggpubr )) {
+  install.packages ("ggpubr" , dependencies=TRUE)
+  require (ggpubr)
+}
+>>>>>>> Stashed changes
 
 if (!require (ggpubr)) {
   install.packages ("ggpubr" , dependencies=TRUE)
   require (ggpubr)
 }
 
+<<<<<<< Updated upstream
 # Direccion a reemplazar según ubicación del archivo
 dir <- "C:/Users/rowin/OneDrive/Escritorio/modelos estadistico/grupo_3/IME_Grupo_3/EP04"
+=======
+dir <- "C:/Users/carla/OneDrive/Escritorio/IME_Grupo_3/EP04"
+>>>>>>> Stashed changes
 basename <- "EP04 Datos.csv"
 file <- file.path(dir, basename)
 poblacion <- read.csv2(file = file)
 
+<<<<<<< Updated upstream
 # 1. El criador a cargo del estudio cree que el peso medio de los pollitos alimentados con soya, a los 8 días de
 # nacidos, es inferior a 97.1 gramos. ¿Soportan los datos esta afirmación?
 
@@ -29,13 +51,17 @@ poblacion <- read.csv2(file = file)
 # H1 --> peso de pollos dictados media µ < 97.1
 # Nivel de confianza de 95%
 # Se usa T de Studen porque hay menos de 30 muestras
+=======
 
-Pollos_1 <- poblacion %>% filter(DIETA == "Soya", DIA == 8)
+Pollos_2 <- poblacion %>% filter(DIETA == "Linaza", (DIA == 0 | DIA == 6))
+>>>>>>> Stashed changes
 
-medidas_varias_1 <- Pollos_1 %>% summarise(Media_pesos = mean(PESO),
-											SD_pesos = sd(PESO))
-print(medidas_varias_1)
+# Crear un vector vacío para almacenar los resultados
+resultados <- numeric()
 
+# Obtener la lista de ids únicos en la tabla
+
+<<<<<<< Updated upstream
 # Muestras de pollos independientes entre sí.
 # Comprobación similaridad a distribución normal mediante gráfico Q-Q.
 
@@ -85,9 +111,14 @@ prueba <- t.test(Pollos_1$PESO,
 # H1 --> pollos dictados con gramos más que al nacer /= 22.4
 # Nivel de confianza de 95%
 # Se usa T de Studen porque hay menos de 30 muestras
+=======
+ids_unicos <- unique(Pollos_2$ID)
 
-Pollos_2 <- poblacion %>% filter(DIETA == "Linaza", (DIA == 0 | DIA == 6))
+>>>>>>> Stashed changes
 
+# Iterar sobre los ids únicos
+
+<<<<<<< Updated upstream
 # Crear un vector vacío para almacenar los resultados.
 resultados <- numeric()
 
@@ -209,3 +240,68 @@ print(prueba)
 # por lo que se toma a favor la hipótesis nula rechazando la alternativa.
 # Finalmente, no es posible afirmar que los pollitos alimentados con maravilla
 # superan por más de 0.02 gramos a los alimentados con soya a los 4 días de nacidos.
+=======
+
+for(IDN in ids_unicos) {
+  
+  # Seleccionar las filas correspondientes al id actual
+  filas <- subset(Pollos_2, IDN == ID)
+  
+  # Calcular la diferencia entre filas consecutivas y almacenar el resultado
+  diff_filas <- diff(filas$PESO)
+  resultados <- c(resultados, diff_filas)
+  
+}
+
+# Mostrar el vector resultante
+
+# print(resultados)
+
+# Establecer los datos conocidos.
+n <- length(ids_unicos)
+grados_libertad <- n - 1
+valor_nulo <- 22.4
+
+# Verificar si la distribución se acerca a la normal.
+g <- ggqqplot(data = data.frame(resultados),
+              x = "resultados",
+              color = "steelblue",
+              xlab = "Teórico",
+              ylab = "Muestra",
+              title = "Gráfico Q-Q muestra v/s distr. normal")
+
+print(g)
+
+# Fijar un nivel de significación.
+alfa <- 0.05
+
+# Calcular el estadístico de prueba.
+media <- mean(resultados)
+desv_est <- sd(resultados)
+error <- desv_est / sqrt(n)
+t <- (media - valor_nulo) / error
+
+# Calcular el valor p.
+p <- pt(t, df = grados_libertad, lower.tail = TRUE)
+
+# Construir el intervalo de confianza.
+t_critico <- qt(alfa, df = grados_libertad, lower.tail = FALSE)
+superior <- media + t_critico * error
+
+# Aplicar la prueba t de Student con la funcuón de R.
+prueba <- t.test(resultados,
+                 alternative = "less",
+                 mu = valor_nulo,
+                 conf.level = 1 - alfa)
+
+print(prueba)
+
+p = 0.9720358 
+alfa = 0.05
+
+# Como el valor de p esta por sobre encima del valor de alfa
+# o tambien llamado nivel de significancia, podemos aceptar 
+# la hipotesis nula y rechazar la alternativa
+
+
+>>>>>>> Stashed changes
