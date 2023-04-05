@@ -29,6 +29,17 @@ basename <- "EP04 Datos.csv"
 file <- file.path(dir, basename)
 poblacion <- read.csv2(file = file)
 
+# ------------------------------ PROBLEMA --------------------------------------
+
+# Un agricultor dedicado a la producción de manzanas desea determinar, 
+# usando una muestra aleatoria de 300 manzanas, si sus frutas tienen un 
+# peso medio de 110 g. Se sabe que el peso de éstas sigue una distribución
+# normal con desviación estándar de 15 g
+
+# el calibre mínimo aceptable es de 60 mm si se mide 
+# por el diámetro o de 90 g si se mide por el peso.
+
+# -------------------------- PREGUNTAS AL GRUPO --------------------------------
 
 # 1. El agricultor está seguro de que el verdadero peso medio no puede ser 
 # inferior a 110 gramos y piensarechazar la hipótesis nula cuando la muestra 
